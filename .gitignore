@@ -1,0 +1,12 @@
+# Virtual environment
+anime/
+
+# Django stuff
+__pycache__/
+db.sqlite3
+
+# VS Code settings
+.vscode/
+
+# Static files (can be regenerated)
+staticfiles/

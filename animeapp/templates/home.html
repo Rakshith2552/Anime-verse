@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AnimeVerse - Find Your Anime</title>
+
+    <!-- tailwind css  -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- google font -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+
+        body {
+            background-image: url('https://images.unsplash.com/photo-1613376023733-0a73315d9b06?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+            font-family: 'Poppins', sans-serif;
+        }
+        .overlay {
+            background: rgba(0, 0, 0, 0.6);
+            min-height: 100vh;
+        }
+        /* body{
+            background-color: #0f172a;
+            color: white;
+            font-family: Arial, Helvetica, sans-serif;
+            text-align: center;
+            padding-top: 100px;
+        }
+         input {
+            padding: 10px;
+            width: 300px;
+            border-radius: 5px;
+            border: none;
+            outline: none;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #6366f1;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #818cf8;
+        } */
+    </style>
+</head>
+<body class="font-[Orbitron] tracking-wider">
+     <div class="overlay flex flex-col items-center justify-center text-white text-center">
+        <h1 class="text-5xl font-bold mb-4">🎌 AnimeVerse 🎌</h1>
+        <p class="text-lg mb-8">Find your next favorite anime</p>
+
+        <form method="GET" action="" class="flex space-x-2">
+            <input type="text" name="query" placeholder="Search anime..."
+                class="px-4 py-2 rounded-lg w-64 focus:outline-none text-black">
+            <button type="submit"
+                class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg font-semibold">
+                Search
+            </button>
+        </form>
+    </div>
+    
+</body>
+</html>
