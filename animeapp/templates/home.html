@@ -1,70 +1,60 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AnimeVerse - Find Your Anime</title>
+{% extends 'base.html' %}
 
-    <!-- tailwind css  -->
-    <script src="https://cdn.tailwindcss.com"></script>
+{% block title %}Home | AnimeVerse{% endblock %}
 
-    <!-- google font -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+{% block content %}
+<div class="flex flex-col items-center justify-center text-white text-center">
 
-    <style>
+  <!-- 🌟 Title -->
+  <h1 class="text-5xl font-bold mb-8 tracking-wider" style="font-family: 'Orbitron', sans-serif;">
+    AnimeVerse
+  </h1>
 
-        body {
-            background-image: url('https://images.unsplash.com/photo-1613376023733-0a73315d9b06?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=870');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-            font-family: 'Poppins', sans-serif;
-        }
-        .overlay {
-            background: rgba(0, 0, 0, 0.6);
-            min-height: 100vh;
-        }
-        /* body{
-            background-color: #0f172a;
-            color: white;
-            font-family: Arial, Helvetica, sans-serif;
-            text-align: center;
-            padding-top: 100px;
-        }
-         input {
-            padding: 10px;
-            width: 300px;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #6366f1;
-            border: none;
-            border-radius: 5px;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #818cf8;
-        } */
-    </style>
-</head>
-<body class="font-[Orbitron] tracking-wider">
-     <div class="overlay flex flex-col items-center justify-center text-white text-center">
-        <h1 class="text-5xl font-bold mb-4">🎌 AnimeVerse 🎌</h1>
-        <p class="text-lg mb-8">Find your next favorite anime</p>
+  <!-- 🔍 Search Form -->
+  <form method="get" class="w-3/4 md:w-1/2 flex justify-center">
+    <input 
+      type="text" 
+      name="q" 
+      placeholder="Search your favorite anime..." 
+      class="p-3 rounded-l-xl w-full text-black focus:outline-none focus:ring-2 focus:ring-red-400" 
+      value="{{ query|default:'' }}">
+    <button 
+      class="bg-red-500 px-6 py-3 rounded-r-xl hover:bg-red-600 transition">
+      Search
+    </button>
+  </form>
 
-        <form method="GET" action="" class="flex space-x-2">
-            <input type="text" name="query" placeholder="Search anime..."
-                class="px-4 py-2 rounded-lg w-64 focus:outline-none text-black">
-            <button type="submit"
-                class="bg-indigo-600 hover:bg-indigo-700 px-4 py-2 rounded-lg font-semibold">
-                Search
-            </button>
-        </form>
-    </div>
-    
-</body>
-</html>
+  <!-- 🔄 Loader -->
+  <div id="loader" class="hidden mt-10">
+    <div class="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+    <p class="mt-4 text-lg">Fetching anime data...</p>
+  </div>
+
+  <!-- 🎬 Results -->
+  {% if results %}
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12">
+    {% for anime in results %}
+    <a href="{% url 'anime_detail' anime.mal_id %}" 
+       class="block bg-white/10 p-4 rounded-xl transform hover:scale-105 transition hover:bg-white/20">
+      <img src="{{ anime.images.jpg.image_url }}" 
+           alt="{{ anime.title }}" 
+           class="rounded-lg w-full h-64 object-cover shadow-lg">
+      <h2 class="text-xl font-semibold mt-3">{{ anime.title }}</h2>
+      <p class="text-sm mt-2 text-gray-300">⭐ Score: {{ anime.score }}</p>
+    </a>
+    {% endfor %}
+  </div>
+  {% elif query %}
+    <p class="mt-10 text-xl">No results found for "{{ query }}" 😔</p>
+  {% endif %}
+</div>
+
+<!-- 🌀 Small JS for Spinner -->
+<script>
+  const form = document.querySelector("form");
+  const loader = document.getElementById("loader");
+  form.addEventListener("submit", () => {
+    loader.classList.remove("hidden");
+  });
+</script>
+{% endblock %}

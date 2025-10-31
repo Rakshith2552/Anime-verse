@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ anime.title }} | AnimeVerse{% endblock %}
+
+{% block content %}
+  <div class="max-w-4xl bg-white bg-opacity-10 p-6 rounded-xl shadow-lg">
+    <div class="flex flex-col md:flex-row gap-6">
+      <img src="{{ anime.images.jpg.image_url }}" alt="{{ anime.title }}" 
+           class="rounded-xl w-full md:w-1/3 object-cover border border-red-400">
+      <div class="flex-1">
+        <h1 class="text-3xl font-bold mb-3 text-red-400">{{ anime.title }}</h1>
+        <p class="text-sm text-gray-300 mb-4">Episodes: {{ anime.episodes }} | Score: ⭐ {{ anime.score }}</p>
+        <p class="text-gray-200 mb-4">{{ anime.synopsis|default:"No synopsis available." }}</p>
+        <p class="text-gray-300"><strong>Type:</strong> {{ anime.type }}</p>
+        <p class="text-gray-300"><strong>Year:</strong> {{ anime.year }}</p>
+        <p class="text-gray-300"><strong>Status:</strong> {{ anime.status }}</p>
+
+        {% if anime.trailer and anime.trailer.url %}
+          <a href="{{ anime.trailer.url }}" target="_blank" 
+             class="mt-4 inline-block bg-red-500 px-5 py-2 rounded-lg hover:bg-red-600 transition">
+            🎥 Watch Trailer
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+<!--  {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ anime.title }} - AnimeVerse</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+</head>
+<body class="bg-cover bg-center min-h-screen text-white" 
+      style="background-image: url('https://wallpapercave.com/wp/wp4410710.jpg'); font-family: 'Poppins', sans-serif;">
+
+  <div class="bg-black bg-opacity-70 min-h-screen flex flex-col items-center p-8">
+    <a href="/" class="mb-6 text-lg text-red-400 hover:underline">← Back to Search</a>
+
+    <div class="max-w-4xl bg-white bg-opacity-10 p-6 rounded-xl shadow-lg">
+      <div class="flex flex-col md:flex-row gap-6">
+        <img src="{{ anime.images.jpg.image_url }}" alt="{{ anime.title }}" 
+             class="rounded-xl w-full md:w-1/3 object-cover">
+        <div class="flex-1">
+          <h1 class="text-3xl font-bold mb-3">{{ anime.title }}</h1>
+          <p class="text-sm text-gray-300 mb-4">Episodes: {{ anime.episodes }} | Score: ⭐ {{ anime.score }}</p>
+          <p class="text-gray-200 mb-4">{{ anime.synopsis|default:"No synopsis available." }}</p>
+          <p class="text-gray-300"><strong>Type:</strong> {{ anime.type }}</p>
+          <p class="text-gray-300"><strong>Year:</strong> {{ anime.year }}</p>
+          <p class="text-gray-300"><strong>Status:</strong> {{ anime.status }}</p>
+
+          {% if anime.trailer and anime.trailer.url %}
+            <a href="{{ anime.trailer.url }}" target="_blank" 
+               class="mt-4 inline-block bg-red-500 px-5 py-2 rounded-lg hover:bg-red-600 transition">
+              🎥 Watch Trailer
+            </a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html> -->
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ anime.title }} - AnimeVerse</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <script>
+        window.addEventListener("load", () => {
+        document.body.classList.add("loaded");
+        });
+    </script>
+
+</head>
+
+<body class="bg-cover bg-center min-h-screen text-white" 
+      style="background-image: url('https://wallpapercave.com/wp/wp4410710.jpg'); font-family: 'Poppins', sans-serif;">
+
+  <div class="bg-black bg-opacity-70 min-h-screen flex flex-col items-center p-8">
+
+    <a href="/" class="mb-6 text-lg text-red-400 hover:text-red-500 transition">
+      ← Back to Search
+    </a>
+
+    {% if anime %}
+      <div class="max-w-5xl bg-white bg-opacity-10 p-8 rounded-xl shadow-2xl transform hover:scale-[1.02] transition duration-300">
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          \
+          <div class="flex-shrink-0">
+            <img src="{{ anime.images.jpg.large_image_url }}" alt="{{ anime.title }}" 
+                 class="rounded-xl w-full md:w-72 object-cover shadow-lg border-2 border-red-500">
+          </div>
+
+        
+          <div class="flex-1 space-y-4">
+            <h1 class="text-4xl font-bold text-red-400">{{ anime.title }}</h1>
+            <p class="text-sm text-gray-300">Episodes: {{ anime.episodes }} | ⭐ Score: {{ anime.score|default:"N/A" }}</p>
+            
+            <p class="text-gray-200 leading-relaxed">
+              {{ anime.synopsis|default:"No synopsis available for this anime." }}
+            </p>
+            
+            <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-gray-300">
+              <p><strong>Type:</strong> {{ anime.type }}</p>
+              <p><strong>Year:</strong> {{ anime.year }}</p>
+              <p><strong>Status:</strong> {{ anime.status }}</p>
+              <p><strong>Rank:</strong> {{ anime.rank }}</p>
+              <p><strong>Duration:</strong> {{ anime.duration }}</p>
+              <p><strong>Rating:</strong> {{ anime.rating }}</p>
+            </div>
+
+            {% if anime.trailer and anime.trailer.url %}
+              <a href="{{ anime.trailer.url }}" target="_blank" 
+                 class="inline-block mt-5 bg-red-500 px-6 py-2 rounded-lg font-semibold hover:bg-red-600 transition duration-200 shadow-md">
+                🎥 Watch Trailer
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    {% else %}
+      <p class="text-red-400 mt-10 text-lg">No details found for this anime.</p>
+    {% endif %}
+  </div>
+</body>
+</html> -->
+
+
+
