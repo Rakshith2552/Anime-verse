@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% block title %}My Watchlist | AnimeVerse{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex flex-col items-center justify-center text-white">
+  <h1 class="text-4xl font-bold mb-8 text-red-400">📺 My Watchlist</h1>
+
+  {% if animes %}
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+      {% for anime in animes %}
+        <div class="bg-white bg-opacity-10 p-4 rounded-lg shadow-lg text-center hover:scale-105 transition">
+          <img src="{{ anime.image_url }}" alt="{{ anime.title }}" class="rounded-lg h-64 w-full object-cover mb-4">
+          <h2 class="text-xl font-semibold">{{ anime.title }}</h2>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p class="text-gray-300 text-lg mt-6">You haven't added anything yet 😅</p>
+  {% endif %}
+</div>
+{% endblock %}

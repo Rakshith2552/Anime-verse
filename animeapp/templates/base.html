@@ -1,95 +1,188 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}AnimeVerse{% endblock %}</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Google Font -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap"
+      rel="stylesheet"
+    />
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
 
     <style>
-        body {
-            font-family: 'Orbitron', sans-serif;
-            background-image: url('https://images.unsplash.com/photo-1613376023733-0a73315d9b06?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&q=80&w=1920');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Orbitron", sans-serif;
+        background-image: url("https://images.unsplash.com/photo-1613376023733-0a73315d9b06?ixlib=rb-4.1.0&auto=format&fit=crop&q=80&w=1920");
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        color: white;
+        opacity: 0;
+        transition: opacity 0.8s ease-in-out;
+      }
+      body.loaded {
+        opacity: 1;
+      }
 
-        nav {
-            backdrop-filter: blur(8px);
-            background-color: rgba(0, 0, 0, 0.5);
-        }
+      /* Glass navbar */
+      nav {
+        backdrop-filter: blur(10px);
+        background-color: rgba(0, 0, 0, 0.6);
+        box-shadow: 0 2px 20px rgba(255, 0, 0, 0.2);
+      }
 
-        footer {
-            backdrop-filter: blur(6px);
-        }
+      /* Neon text glow */
+      .neon-text {
+        color: #ff4d4d;
+        text-shadow: 0 0 5px #ff4d4d, 0 0 10px #ff4d4d, 0 0 20px #ff4d4d;
+        animation: glow 2s ease-in-out infinite alternate;
+      }
 
-        /* Fade in animation */
-        body {
-            opacity: 0;
-            transition: opacity 0.8s ease-in-out;
+      @keyframes glow {
+        from {
+          text-shadow: 0 0 5px #ff4d4d, 0 0 10px #ff4d4d;
         }
-        body.loaded {
-            opacity: 1;
+        to {
+          text-shadow: 0 0 10px #ff4d4d, 0 0 25px #ff1a1a;
         }
+      }
+
+      /* Nav link hover effects */
+      .nav-link {
+        position: relative;
+        transition: all 0.3s ease;
+      }
+      .nav-link:hover {
+        color: #ff6666;
+      }
+      .nav-link::after {
+        content: "";
+        position: absolute;
+        width: 0%;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #ff4d4d;
+        transition: width 0.3s ease;
+      }
+      .nav-link:hover::after {
+        width: 100%;
+      }
+
+      /* Mobile Menu */
+      .mobile-menu {
+        display: none;
+      }
+
+      @media (max-width: 768px) {
+        .desktop-menu {
+          display: none;
+        }
+        .mobile-menu {
+          display: block;
+        }
+      }
+
+      footer {
+        backdrop-filter: blur(6px);
+      }
     </style>
-</head>
+  </head>
 
-<body class="text-white">
-
-  <!-- 🌸 Transparent Navbar -->
-  <nav class="fixed top-0 left-0 w-full z-50 shadow-md">
-    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
+  <body>
+    <!-- 🔥 Navbar -->
+    <nav class="fixed top-0 left-0 w-full z-50">
+      <div
+        class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center"
+      >
         <!-- Logo -->
         <div class="flex items-center space-x-3">
-          <img src="https://tailwindcss.com/plus-assets/img/logos/mark.svg?color=indigo&shade=500"
-               alt="AnimeVerse Logo"
-               class="h-8 w-auto" />
+          <img
+            src="https://d8it4huxumps7.cloudfront.net/uploads/images/150x150/uploadedManual-67ab33c7574c4_logo2_2-min_11zon.png?d=200x200"
+            alt="AnimeVerse Logo"
+            class="h-10 w-auto drop-shadow-lg"
+          />
           <h1 class="text-2xl font-bold text-red-400 tracking-wider">
             <a href="/">AnimeVerse</a>
           </h1>
         </div>
 
-        <!-- Navbar Links -->
-        <div class="hidden md:flex space-x-6">
-          <a href="/" class="text-gray-200 hover:text-red-400 transition">🏠 Home</a>
-          {% comment %} <a href="{% url 'random_anime' %}" class="text-gray-200 hover:text-red-400 transition">🎲 Random</a> {% endcomment %}
-          <a href="#" class="text-gray-200 hover:text-red-400 transition">🔥 Trending</a>
-          <a href="#" class="text-gray-200 hover:text-red-400 transition">📺 Watchlist</a>
+        <!-- Desktop Links -->
+        <div class="hidden md:flex space-x-8 text-lg">
+          <a href="/" class="nav-link">🏠 Home</a>
+          <a href="#" class="nav-link">🔥 Trending</a>
+          <a href="#" class="nav-link">🎲 Random</a>
+          <a href="{% url 'watchlist' %}" class="nav-link">📺 Watchlist</a>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden text-white focus:outline-none">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-7 w-7"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
       </div>
-    </div>
-  </nav>
 
-  <!-- Spacing so content isn’t hidden behind navbar -->
-  <div class="pt-24"></div>
+      <!-- Mobile Dropdown -->
+      <div
+        id="mobile-menu"
+        class="mobile-menu bg-black bg-opacity-80 text-center py-4 space-y-3 hidden"
+      >
+        <a href="/" class="block nav-link">🏠 Home</a>
+        <a href="#" class="block nav-link">🔥 Trending</a>
+        <a href="#" class="block nav-link">🎲 Random</a>
+        <a href="{% url 'watchlist' %}" class="block nav-link">📺 Watchlist</a>
+      </div>
+    </nav>
 
-  <!-- 🌟 Main Content -->
-  <main class="bg-black bg-opacity-60 min-h-screen p-6">
-    {% block content %}{% endblock %}
-  </main>
+    <!-- Spacing for Navbar -->
+    <div class="pt-24"></div>
 
-  <!-- 🌈 Footer -->
-  <footer class="text-center text-gray-400 py-6 bg-black bg-opacity-70 mt-10 w-full">
-    Built with ❤️ using Django + Tailwind | © 2025 AnimeVerse
-  </footer>
+    <!-- 🌌 Main Content -->
+    <main
+      class="min-h-screen bg-black bg-opacity-60 p-6 flex justify-center items-center"
+    >
+      {% block content %}{% endblock %}
+    </main>
 
-  <!-- ✨ Page Fade Animation -->
-  <script>
-    window.addEventListener("load", () => {
-      document.body.classList.add("loaded");
-    });
-  </script>
-</body>
+    <!-- 🌈 Footer -->
+    <footer
+      class="text-center text-gray-400 py-6 bg-black bg-opacity-70 mt-10 w-full"
+    >
+      Built with ❤️ using Django + Tailwind | © 2025 AnimeVerse
+    </footer>
+
+    <!-- ✨ Animations & Menu Script -->
+    <script>
+      window.addEventListener("load", () => {
+        document.body.classList.add("loaded");
+      });
+
+      const btn = document.getElementById("menu-btn");
+      const menu = document.getElementById("mobile-menu");
+      btn.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
+      });
+    </script>
+  </body>
 </html>

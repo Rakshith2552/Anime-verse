@@ -1,55 +1,74 @@
 {% extends 'base.html' %}
-
 {% block title %}Home | AnimeVerse{% endblock %}
 
 {% block content %}
-<div class="flex flex-col items-center justify-center text-white text-center">
+<div class="relative min-h-screen w-full flex flex-col items-center justify-center font-[Orbitron] text-white px-4">
 
-  <!-- 🌟 Title -->
-  <h1 class="text-5xl font-bold mb-8 tracking-wider" style="font-family: 'Orbitron', sans-serif;">
-    AnimeVerse
-  </h1>
+  <!-- 🌌 Background Overlay -->
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('https://wallpapercave.com/wp/wp1823161.jpg'); filter: blur(10px) brightness(0.5); z-index: -1;"></div>
 
-  <!-- 🔍 Search Form -->
-  <form method="get" class="w-3/4 md:w-1/2 flex justify-center">
-    <input 
-      type="text" 
-      name="q" 
-      placeholder="Search your favorite anime..." 
-      class="p-3 rounded-l-xl w-full text-black focus:outline-none focus:ring-2 focus:ring-red-400" 
-      value="{{ query|default:'' }}">
-    <button 
-      class="bg-red-500 px-6 py-3 rounded-r-xl hover:bg-red-600 transition">
-      Search
-    </button>
-  </form>
+  <!-- 🔍 Centered Search Section -->
+  <div class="backdrop-blur-md bg-black bg-opacity-70 rounded-2xl shadow-2xl p-10 w-full max-w-3xl border border-gray-700 text-center">
+    <h1 class="text-5xl font-bold text-red-500 mb-6 tracking-widest drop-shadow-lg">
+      AnimeVerse
+    </h1>
+    <p class="text-gray-300 mb-6 text-sm md:text-base">
+      Discover your favorite anime — powered by Jikan API 🎬
+    </p>
 
-  <!-- 🔄 Loader -->
-  <div id="loader" class="hidden mt-10">
-    <div class="w-16 h-16 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
-    <p class="mt-4 text-lg">Fetching anime data...</p>
+    <form method="get" class="flex flex-col sm:flex-row items-center justify-center w-full gap-3">
+      <input 
+        type="text" 
+        name="q" 
+        placeholder="Search your favorite anime..." 
+        class="p-3 rounded-xl w-full sm:w-3/4 text-black focus:ring-2 focus:ring-red-400 outline-none transition" 
+        value="{{ query|default:'' }}"
+      >
+      <button 
+        class="bg-red-500 px-6 py-3 rounded-xl hover:bg-red-600 transition font-semibold w-full sm:w-auto">
+        Search
+      </button>
+    </form>
+
+    <!-- 🔄 Loader -->
+    <div id="loader" class="hidden mt-8">
+      <div class="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <p class="mt-4 text-lg text-gray-300">Fetching anime data...</p>
+    </div>
   </div>
 
-  <!-- 🎬 Results -->
+  <!-- 🧩 Results Section -->
   {% if results %}
-  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 mt-12">
-    {% for anime in results %}
-    <a href="{% url 'anime_detail' anime.mal_id %}" 
-       class="block bg-white/10 p-4 rounded-xl transform hover:scale-105 transition hover:bg-white/20">
-      <img src="{{ anime.images.jpg.image_url }}" 
-           alt="{{ anime.title }}" 
-           class="rounded-lg w-full h-64 object-cover shadow-lg">
-      <h2 class="text-xl font-semibold mt-3">{{ anime.title }}</h2>
-      <p class="text-sm mt-2 text-gray-300">⭐ Score: {{ anime.score }}</p>
-    </a>
-    {% endfor %}
+  <div class="w-full max-w-7xl mt-20">
+    <div class="backdrop-blur-xl bg-black bg-opacity-70 rounded-2xl shadow-2xl p-10 border border-gray-700">
+      <h2 class="text-3xl font-semibold text-center mb-10 text-red-400 tracking-widest">
+        🎬 Search Results
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10 place-items-center">
+        {% for anime in results %}
+        <a href="{% url 'anime_detail' anime.mal_id %}" 
+           class="w-72 transform hover:scale-105 transition duration-300">
+          <div class="rounded-2xl overflow-hidden shadow-lg bg-gray-900 bg-opacity-70 border border-gray-700 hover:border-red-500 hover:shadow-red-500/40 transition-all duration-300">
+            <img src="{{ anime.images.jpg.image_url }}" 
+                 alt="{{ anime.title }}" 
+                 class="w-full h-80 object-cover hover:scale-105 transition duration-500">
+            <div class="p-4 text-center">
+              <h2 class="text-lg font-semibold text-white truncate">{{ anime.title }}</h2>
+              <p class="text-sm text-gray-400 mt-1">⭐ Score: {{ anime.score|default:"N/A" }}</p>
+            </div>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
   </div>
   {% elif query %}
-    <p class="mt-10 text-xl">No results found for "{{ query }}" 😔</p>
+  <p class="mt-16 text-xl text-gray-300">No results found for "{{ query }}" 😔</p>
   {% endif %}
 </div>
 
-<!-- 🌀 Small JS for Spinner -->
+<!-- ✨ Loader Script -->
 <script>
   const form = document.querySelector("form");
   const loader = document.getElementById("loader");
